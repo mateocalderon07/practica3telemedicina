@@ -31,9 +31,9 @@ function responderError(res, err, mensajeDuplicado) {
   res.status(500).json("Error al realizar la consulta");
 }
 
-// ---------- Servicios públicos (no necesitan token) ----------
+//Servicios públicos (no hace falta token)
 
-// Si las credenciales son correctas devuelve el id del gestor y su token
+//Si las credenciales son correctas devuelve el id del gestor y su token
 app.post("/api/gestores/login", async (req, res) => {
   const { data, error } = await supabase
     .from("gestores")
@@ -62,8 +62,7 @@ app.post("/api/gestores", async (req, res) => {
   res.status(201).json(data.id);
 });
 
-// Antes de este use, los servicios son públicos. Todo lo que hay a partir de aquí
-// necesita un token válido en la URL: /api/...?token=XXXXXXXX
+//Antes del use, los servicios son públicos, a partir de aquí, hace falta un token en la URL: /api/...?token=XXXXXXXX
 app.use("/api", function (req, res, next) {
   var token = req.query.token;
   if (!token) { // no se ha pasado un token
@@ -90,11 +89,11 @@ app.use("/api", function (req, res, next) {
     res.status(301).json("El token ha expirado");
     return;
   }
-  // Todo ha ido bien: express continúa con el servicio pedido
+  // Todo ha ido bien: express continúa con el servicio
   next();
 });
 
-// ---------- Servicios privados (necesitan token) ----------
+//Servicios privados, hace falta token
 
 app.get("/api/ubicaciones", async (req, res) => {
   const { data, error } = await supabase.from("ubicaciones").select("*").order("id");
