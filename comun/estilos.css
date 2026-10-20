@@ -1,0 +1,161 @@
+/* Estilos comunes de la app del gestor y la app del sanitario */
+
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Contenedor de cada sección (vista) */
+.container {
+    width: 80%;
+    max-width: 1000px;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Encabezados */
+h1, h2, h3 {
+    background-color: #6c757d;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+h1 {
+    width: 80%;
+    max-width: 1000px;
+    margin: 20px auto;
+    background-color: #343a40;
+}
+
+h3 {
+    font-size: 1em;
+    margin-top: 25px;
+}
+
+/* Tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #343a40;
+    color: white;
+}
+
+/* Botones: por defecto azul (primario) */
+button {
+    padding: 8px 12px;
+    margin: 5px 5px 5px 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: bold;
+    background-color: #007bff;
+    color: white;
+}
+
+button:hover {
+    background-color: #0069d9;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.btn-success {
+    background-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+/* Formulario */
+.campo {
+    margin-bottom: 10px;
+}
+
+.campo label {
+    font-weight: bold;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+/* Botones alineados a la derecha (Salir, Volver...) */
+.acciones-derecha {
+    text-align: right;
+    margin-top: 15px;
+}
+
+/* Colores de las reservas en la ficha del recurso (app gestor) */
+.reserva-finalizada td {
+    background-color: white;
+}
+
+.reserva-en-uso td {
+    background-color: #cce5ff;
+}
+
+.reserva-excedida td {
+    background-color: #f8d7da;
+}
+
+.reserva-pendiente td {
+    background-color: #d4edda;
+}
+
+/* Avisos (WebSockets) */
+.aviso-reserva td {
+    background-color: #f8d7da;
+    color: #a71d2a;
+}
+
+.aviso-recurso td {
+    background-color: #cce5ff;
+    color: #004085;
+}
+
+.aviso-resenya td {
+    background-color: #d4edda;
+    color: #155724;
+}

@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <title>Aplicación Gestor</title>
+    <link rel="stylesheet" href="/comun/estilos.css">
+</head>
+
+<body>
+
+    <h1>Aplicación Gestor</h1>
+
+    <div id="acceso" class="container">
+        <h2>Acceso</h2>
+        <div class="campo"><label for="usuario">Usuario:</label><input id="usuario"></div>
+        <div class="campo"><label for="password">Contraseña:</label><input id="password" type="password"></div>
+        <button onclick="login()">Entrar</button>
+        <button class="btn-secondary" onclick="cambiarSeccion('registro')">Registrarse</button>
+    </div>
+
+    <div id="registro" class="container" hidden>
+        <h2>Datos gestor</h2>
+        <div class="campo"><label for="reg_nombre">Nombre:</label><input id="reg_nombre"></div>
+        <div class="campo"><label for="reg_apellidos">Apellidos:</label><input id="reg_apellidos"></div>
+        <div class="campo"><label for="reg_usuario">Login:</label><input id="reg_usuario"></div>
+        <div class="campo"><label for="reg_password">Contraseña:</label><input id="reg_password" type="password"></div>
+        <button onclick="registrarUsuario()">Guardar</button>
+        <button class="btn-secondary" onclick="cambiarSeccion('acceso')">Cancelar</button>
+    </div>
+
+    <div id="home" class="container" hidden>
+        <h2>Inicio</h2>
+        <p>
+            <span id="texto_bienvenida">Cargando datos...</span>
+            <button class="btn-secondary" onclick="editarDatos()">Editar datos</button>
+        </p>
+
+        <h3>Búsqueda de recursos</h3>
+        <div class="campo">
+            <label for="home_categoria">Categoría:</label>
+            <select id="home_categoria" onchange="filtrarModelos('home_categoria', 'home_modelo', 'Todos')"></select>
+        </div>
+        <div class="campo">
+            <label for="home_modelo">Modelo:</label>
+            <select id="home_modelo"></select>
+        </div>
+        <div class="campo">
+            <label for="home_ubicacion">Ubicación:</label>
+            <select id="home_ubicacion"></select>
+        </div>
+        <div class="campo">
+            <label for="home_estado">Estado:</label>
+            <select id="home_estado">
+                <option value="-1">Todos</option>
+                <option value="0">Operativo</option>
+                <option value="1">De baja o defectuoso</option>
+                <option value="2">En mantenimiento</option>
+            </select>
+        </div>
+        <button onclick="mostrarRecursos()">Buscar</button>
+
+        <h3>Recursos</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nº Serie</th>
+                    <th>Categoría</th>
+                    <th>Modelo</th>
+                    <th>Ubicación</th>
+                    <th>Estado</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <!-- tbody vacío: se rellena al pulsar Buscar -->
+            <tbody id="tbody_recursos"></tbody>
+        </table>
+        <button class="btn-success" onclick="nuevoRecurso()">Añadir recurso</button>
+
+        <h3>Ranking de reservas por área médica</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Área médica</th>
+                    <th>Reservas totales</th>
+                </tr>
+            </thead>
+            <!-- P3 P3 ESTO ES DE LA P3-->
+            <tbody id="tbody_ranking"></tbody>
+        </table>
+        <button id="btn_ministerio" onclick="enviarAlMinisterio()">Enviar reservas al Ministerio</button>
+
+        <h3>Avisos</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Origen</th>
+                    <th>Texto</th>
+                </tr>
+            </thead>
+            <tbody id="tbody_avisos"></tbody>
+        </table>
+
+        <div class="acciones-derecha">
+            <button class="btn-secondary" onclick="salir()">Salir</button>
+        </div>
+    </div>
+
+    <div id="editarDatos" class="container" hidden>
+        <h2>Datos gestor</h2>
+        <div class="campo"><label for="mod_nombre">Nombre:</label><input id="mod_nombre"></div>
+        <div class="campo"><label for="mod_apellidos">Apellidos:</label><input id="mod_apellidos"></div>
+        <div class="campo"><label for="mod_usuario">Login:</label><input id="mod_usuario"></div>
+        <div class="campo"><label for="mod_password">Contraseña (dejar vacía para no cambiarla):</label><input id="mod_password" type="password"></div>
+        <button onclick="modificarUsuario()">Guardar</button>
+        <button class="btn-secondary" onclick="cambiarSeccion('home')">Cancelar</button>
+    </div>
+
+    <div id="recurso" class="container" hidden>
+        <h2>Recurso</h2>
+        <h3>Datos recurso</h3>
+        <div class="campo">
+            <label for="rec_categoria">Categoría:</label>
+            <select id="rec_categoria" onchange="filtrarModelos('rec_categoria', 'rec_modelo', null)"></select>
+        </div>
+        <div class="campo">
+            <label for="rec_modelo">Modelo:</label>
+            <select id="rec_modelo"></select>
+        </div>
+        <div class="campo"><label for="rec_num_serie">Núm. Serie:</label><input id="rec_num_serie"></div>
+        <div class="campo">
+            <label for="rec_ubicacion">Ubicación:</label>
+            <select id="rec_ubicacion"></select>
+        </div>
+        <div class="campo">
+            <label for="rec_estado">Estado:</label>
+            <select id="rec_estado">
+                <option value="0">Operativo</option>
+                <option value="1">De baja o defectuoso</option>
+                <option value="2">En mantenimiento</option>
+            </select>
+        </div>
+        <button onclick="guardarRecurso()">Guardar</button>
+
+        <div id="rec_historial">
+            <h3>Reservas</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sanitario</th>
+                        <th>H. estim.</th>
+                        <th>F. Petición</th>
+                        <th>F. Inicio</th>
+                        <th>F. Fin</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla_reservas_body"></tbody>
+            </table>
+
+            <h3>Reseñas</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Sanitario</th>
+                        <th>Valoración</th>
+                        <th>Comentario</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla_resenas_body"></tbody>
+            </table>
+        </div>
+
+        <div class="acciones-derecha">
+            <button class="btn-secondary" onclick="cambiarSeccion('home')">Volver al listado</button>
+        </div>
+    </div>
+
+    <script src="rest.js"></script>
+    <script src="main.js"></script>
+
+</body>
+</html>
